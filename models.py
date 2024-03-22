@@ -11,7 +11,7 @@ class User(Model):
     email = fields.CharField(max_length=200, null = False, unique = True)
     password = fields.CharField(max_length=100, null = False)
     is_verified = fields.BooleanField(default= False)
-    join_data = fields.DatetimeField(default = datetime.utcnow)
+    join_date = fields.DatetimeField(default = datetime.utcnow)
     
     
 # Criando a classe Business    
@@ -40,7 +40,7 @@ class Product(Model):
 
 # pydantic_model -> Transforma a classe em um modelo Pydantic, contendo as especificações da classe
 user_pydantic = pydantic_model_creator(User, name="User", exclude=("is_verified",))
-user_pydanticIn = pydantic_model_creator(User, name = "UserIn", exclude_readonly=True)
+user_pydanticIn = pydantic_model_creator(User, name = "UserIn", exclude_readonly=True, exclude=("is_verified", "join_date"))
 user_pydanticOut = pydantic_model_creator(User, name ="UserOut", exclude=("password",))
 
 
