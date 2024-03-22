@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from datetime import datetime
 from tortoise.contrib.pydantic import pydantic_model_creator
 
+# Criando a classe User
 class User(Model):
     id = fields.IntField(pk = True, index = True)
     username = fields.CharField(max_length=20, null = False, unique = True)
@@ -13,6 +14,7 @@ class User(Model):
     join_data = fields.DatetimeField(default = datetime.utcnow)
     
     
+# Criando a classe Business    
 class Business(Model):
     id = fields.IntField(pk = True, index = True)
     business_name = fields.CharField(max_length= 20, null = False, unique = True)
@@ -23,6 +25,7 @@ class Business(Model):
     owner = fields.ForeignKeyField("models.User", related_name="business")
     
 
+# Criando a classe Product
 class Product(Model):
     id = fields.IntField(pk = True, index = True)
     name = fields.CharField(max_length=100, null = False, index = True)
@@ -35,6 +38,7 @@ class Product(Model):
     business = fields.ForeignKeyField("models.Business", related_name="products")
     
 
+# pydantic_model -> Transforma a classe em um modelo Pydantic, contendo as especificações da classe
 user_pydantic = pydantic_model_creator(User, name="User", exclude=("is_verified",))
 user_pydanticIn = pydantic_model_creator(User, name = "UserIn", exclude_readonly=True)
 user_pydanticOut = pydantic_model_creator(User, name ="UserOut", exclude=("password",))
